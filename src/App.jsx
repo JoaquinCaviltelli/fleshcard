@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import textos from "./database/textos.json";
 
+
+
 function App() {
   const [texto, setTexto] = useState({});
   const [help, setHelp] = useState(false);
@@ -24,11 +26,12 @@ function App() {
   return (
     <>
       <div className="w-screen h-[calc(100vh-180px)] px-5 pt-20 flex justify-center items-center">
-        <div className="w-full max-w-md h-full bg-gray-50 rounded-md flex flex-col p-5 justify-between gap-32 relative">
+        <div className="w-full max-w-md h-full bg-gray-100 rounded-md flex flex-col p-5 justify-between gap-32 relative">
           {texto.categoria ? (
-            <button className="self-end" onClick={aleatorio}>
+            <button className="self-end flex items-center" onClick={aleatorio}>
+              <span className="text-xs">Sigiente</span>
               <span className="text-orange-400 material-symbols-outlined text-4xl">
-                restart_alt
+              skip_next
               </span>
             </button>
           ) : (
@@ -40,7 +43,7 @@ function App() {
             ) : (
              
               <button className="absolute top-0 bottom-0"  onClick={aleatorio}>
-                <span className="text-orange-400 material-symbols-outlined text-9xl">
+                <span className="text-gray-400 material-symbols-outlined text-9xl">
                   play_circle
                 </span>
               </button>
@@ -58,12 +61,16 @@ function App() {
                 {help ? (
                   ""
                 ) : (
+                  <div className="flex items-center gap-2">
                   <span className="text-4xl material-symbols-outlined text-orange-400">
                     help
                   </span>
+                    <span className="text-xs">Ayuda</span>
+                  </div>
                 )}
               </button>
-              <button onClick={abrirEnlace}>
+              <button className="flex items-center gap-2" onClick={abrirEnlace}>
+              <span className="text-xs">Link</span>
                 <span className="text-4xl text-orange-400 material-symbols-outlined">
                   link
                 </span>

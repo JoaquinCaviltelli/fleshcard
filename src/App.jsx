@@ -23,31 +23,31 @@ function App() {
 
   return (
     <>
-      <div className="w-screen h-screen flex justify-center items-center">
-        <div className="w-full max-w-xl h-[calc(100vh-2rem)] bg-gray-50 rounded-md flex flex-col p-4 justify-between ">
+      <div className="w-screen px-5 pt-20 flex justify-center items-center">
+        <div className="w-full max-w-md  bg-gray-50 rounded-md flex flex-col p-5 justify-between gap-32">
           <button className="self-end" onClick={aleatorio}>
-            <span className="text-orange-400 material-symbols-outlined">restart_alt</span>
+            <span className="text-orange-400 material-symbols-outlined text-4xl">restart_alt</span>
           </button>
-          <div className="flex flex-col h-44 items-center">
+          <div className="flex flex-col h-60 items-center">
             <h2 className="font-bold text-3xl">{texto.categoria}</h2>
             <p className="font-bold mb-4 mt-1">{texto.versiculo ?  "(" + texto.versiculo + ")" : "" }</p>
-            <p className="w-60"> {help ? (
+            <p className="max-w-60"> {help ? (
                 texto.ayuda
               ) : (
                 ""
               )}</p>
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <button onClick={mostrarAyuda}>
               {help ? (
                 ""
               ) : (
-                <span className="material-symbols-outlined text-orange-400">help</span>
+                <span className="text-4xl material-symbols-outlined text-orange-400">help</span>
               )}
             </button>
             <button onClick={abrirEnlace}>
-              <span className=" text-orange-400 material-symbols-outlined">link</span>
+              <span className="text-4xl text-orange-400 material-symbols-outlined">link</span>
             </button>
           </div>
         </div>

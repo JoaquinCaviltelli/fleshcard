@@ -1,88 +1,41 @@
-import { useState } from "react";
-import "./App.css";
-import textos from "./database/textos.json";
+// src/App.js
+import  { useState, useEffect } from 'react';
+import TaskForm from './components/TaskForm.jsx';
+import TaskList from './components/TaskList.jsx';
+import { loadTasks, saveTasks } from './localStorage';
 
+const App = () => {
+  const [tasks, setTasks] = useState(loadTasks());
 
+  useEffect(() => {
+    saveTasks(tasks);
+  }, [tasks]);
 
-function App() {
-  const [texto, setTexto] = useState({});
-  const [help, setHelp] = useState(false);
-
-  // Función para seleccionar un objeto aleatorio
-  const aleatorio = () => {
-    const i = Math.floor(Math.random() * textos.length);
-    setTexto(textos[i]);
-    setHelp(false);
+  const addTask = (task) => {
+    setTasks([...tasks, { ...task, completed: false }]);
   };
 
-  const mostrarAyuda = () => {
-    setHelp(true);
+  const removeTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
   };
 
-  const abrirEnlace = () => {
-    window.open(texto.link, "_blank", "noopener,noreferrer");
+  const toggleComplete = (index) => {
+    setTasks(tasks.map((task, i) =>
+      i === index ? { ...task, completed: !task.completed } : task
+    ));
   };
 
   return (
-    <>
-      <div className="w-screen h-[calc(100vh-180px)] px-5 pt-20 flex justify-center items-center">
-        <div className="w-full max-w-md h-full bg-gray-100 rounded-md flex flex-col p-5 justify-between gap-32 relative">
-          {texto.categoria ? (
-            <button className="self-end flex items-center" onClick={aleatorio}>
-              <span className="text-xs">Sigiente</span>
-              <span className="text-orange-400 material-symbols-outlined text-4xl">
-              skip_next
-              </span>
-            </button>
-          ) : (
-            ""
-          )}
-          <div className="flex flex-col min-h-60 items-center ">
-            {texto.categoria ? (
-              ""
-            ) : (
-             
-              <button className="absolute top-0 bottom-0"  onClick={aleatorio}>
-                <span className="text-gray-400 material-symbols-outlined text-9xl">
-                  play_circle
-                </span>
-              </button>
-             
-            )}
-            <h2 className="font-bold text-3xl">{texto.categoria}</h2>
-            <p className="font-bold mb-4 mt-1">
-              {texto.categoria ? "(" + texto.versiculo + ")" : ""}
-            </p>
-            <p className="max-w-60"> {help ? texto.ayuda : ""}</p>
-          </div>
-          {texto.categoria ? (
-            <div className="flex justify-between items-center">
-              <button onClick={mostrarAyuda}>
-                {help ? (
-                  ""
-                ) : (
-                  <div className="flex items-center gap-2">
-                  <span className="text-4xl material-symbols-outlined text-orange-400">
-                    help
-                  </span>
-                    <span className="text-xs">Ayuda</span>
-                  </div>
-                )}
-              </button>
-              <button className="flex items-center gap-2" onClick={abrirEnlace}>
-              <span className="text-xs">Link</span>
-                <span className="text-4xl text-orange-400 material-symbols-outlined">
-                  link
-                </span>
-              </button>
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-      </div>
-    </>
+    <div className="container mx-auto p-8 max-w-2xl">
+      <h1 className="text-2xl font-bold mb-4">Tareas</h1>
+      <TaskForm addTask={addTask} />
+      <TaskList
+        tasks={tasks.sort((a, b) => (b.impact + b.confidence + b.ease) - (a.impact + a.confidence + a.ease))}
+        removeTask={removeTask}
+        toggleComplete={toggleComplete}
+      />
+    </div>
   );
-}
+};
 
 export default App;
